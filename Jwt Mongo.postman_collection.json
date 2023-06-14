@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "65c56ee3-e15d-42e7-91e6-603b879f6dbc",
+		"name": "Jwt Mongo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\" : \"kinshulv\",\r\n    \"apiKey\" : \"1234\",\r\n    \"tenantId\" : \"1245\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8089/v1/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\" : \"kinshulv\",\r\n    \"apiKey\" : \"1234\",\r\n    \"tenantId\" : \"1245\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8089/v1/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Secured Data",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyhbGciOiJIUzI1NiJ9.eyJ0ZW5hbnRJZCI6IjEyNDUiLCJzdWIiOiJraW5zaHVsdiIsImlhdCI6MTY4Njc1OTczMiwiZXhwIjoxNjg2NzYxMTcyfQ.ihX3O1Oo4SbssK9PAouHQt159fPtiEJwKiwLVNuhLDs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8089/v1/users/securedData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						"v1",
+						"users",
+						"securedData"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
