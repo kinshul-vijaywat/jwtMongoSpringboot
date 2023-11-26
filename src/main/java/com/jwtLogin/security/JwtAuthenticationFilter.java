@@ -16,7 +16,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jwtLogin.dto.RestError;
-import com.jwtLogin.entity.User;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -31,7 +30,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
-	// private final TokenRepository tokenRepository;
 
 	@Override
 	protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
@@ -49,9 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 				User userDetails = (User) this.userDetailsService.loadUserByUsername(userEmail);
 				if (jwtService.isTokenValid(jwt, userDetails)) {
-					if (!userDetails.getCurrentToken().equals(jwt)) {
-						filterChain.doFilter(request, response);
-					}
 					UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
 							null, userDetails.getAuthorities());
 					authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

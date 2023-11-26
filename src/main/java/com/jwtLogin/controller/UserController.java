@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jwtLogin.dto.GenericResponse;
 import com.jwtLogin.dto.LoginDto;
-import com.jwtLogin.dto.UserDto;
 import com.jwtLogin.service.UserService;
 
 import jakarta.validation.Valid;
@@ -21,12 +20,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-
-	@PostMapping("/register")
-	public ResponseEntity<GenericResponse> registerUser(@Valid @RequestBody UserDto userDto) {		
-		GenericResponse registerUser = userService.registerUser(userDto);
-		return ResponseEntity.status(registerUser.getStatus()).body(registerUser);
-	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<GenericResponse> loginUser(@Valid @RequestBody LoginDto loginDto) {		

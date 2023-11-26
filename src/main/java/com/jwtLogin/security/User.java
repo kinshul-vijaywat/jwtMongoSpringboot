@@ -1,36 +1,45 @@
-package com.jwtLogin.entity;
+package com.jwtLogin.security;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 import lombok.Data;
 
+
 @Data
-@Document("users")
 public class User implements UserDetails{
 
 	/**
 	 * 
 	 */
+	public static final String SEP = ",";
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	private String id;
-	
+	private String userData;
+	private String tenantId;
 	private String userId;
 	
-	private String apiKey;
+	public User(String userDetails) {
+		try {
+			String[] split = userDetails.split(SEP);
+			this.tenantId = split[0];
+			this.userId = split[1];
+			this.userData = userDetails;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
-	private String tenantId;
+	public User(String tenantId, String userId) {
+		this.tenantId = tenantId;
+		this.userId = userId;
+		this.userData = setUserData();		
+	}
 	
-	private String currentToken;
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority("API_USER"));
@@ -38,12 +47,12 @@ public class User implements UserDetails{
 
 	@Override
 	public String getPassword() {
-		return apiKey;
+		return userData;
 	}
 
 	@Override
 	public String getUsername() {
-		return userId;
+		return userData;
 	}
 
 	@Override
@@ -66,4 +75,11 @@ public class User implements UserDetails{
 		return true;
 	}
 	
+	private String getUserData() {
+		return userData;
+	}
+	
+	private String setUserData() {
+		return this.tenantId + SEP + this.userId;
+	}
 }
