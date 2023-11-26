@@ -14,10 +14,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class JwtService {
 
 	private static final String SECRET_KEY = "4B6150645367566B59703373367638792F423F4528482B4D6251655468576D5A";
@@ -56,9 +54,8 @@ public class JwtService {
 		return extractClaim(token, Claims::getExpiration);
 	}
 
-	private Claims extractAllClaims(String token) {
+	public Claims extractAllClaims(String token) {
 		Claims claims = Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
-		log.info("Claims are - {}", claims);
 		return claims;
 	}
 

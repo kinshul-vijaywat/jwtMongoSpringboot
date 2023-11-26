@@ -17,12 +17,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jwtLogin.dto.RestError;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
@@ -43,7 +46,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				return;
 			}
 			jwt = authHeader.substring(7);
-			userEmail = jwtService.extractUsername(jwt);
+			Claims claims = jwtService.extractAllClaims(jwt);
+			log.info("Claims are - {}", claims);
+			userEmail = claims.getSubject();
 			if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 				User userDetails = (User) this.userDetailsService.loadUserByUsername(userEmail);
 				if (jwtService.isTokenValid(jwt, userDetails)) {
